@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Página de promoción de clientes -->
+    <template id="customers_promotion_template" name="Customers Promotion">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="oe_structure"/>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1 class="text-center">Our Valued Customers</h1>
+                            <p class="text-center text-muted">
+                                Connect with our customers through their social networks
+                            </p>
+                            
+                            <!-- Formulario de búsqueda -->
+                            <div class="row mt-4">
+                                <div class="col-md-8 mx-auto">
+                                    <form method="GET" action="/customers-promotion" class="form-inline">
+                                        <div class="input-group w-100">
+                                            <input type="text" 
+                                                   name="search" 
+                                                   class="form-control" 
+                                                   placeholder="Search by name or social network..."
+                                                   t-att-value="search or ''"/>
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-primary">
+                                                    <i class="fa fa-search"/> Search
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                            <!-- Lista de clientes -->
+                            <div class="row mt-5">
+                                <t t-foreach="customers" t-as="customer">
+                                    <div class="col-md-6 col-lg-4 mb-4">
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title">
+                                                    <t t-esc="customer.name"/>
+                                                    <t t-if="customer.profile_complete">
+                                                        <i class="fa fa-check-circle text-success ml-2" 
+                                                           title="Profile Complete"/>
+                                                    </t>
+                                                </h5>
+                                                
+                                                <p class="card-text text-muted" t-if="customer.email">
+                                                    <i class="fa fa-envelope"/> <t t-esc="customer.email"/>
+                                                </p>
+                                                <p class="card-text text-muted" t-if="customer.phone">
+                                                    <i class="fa fa-phone"/> <t t-esc="customer.phone"/>
+                                                </p>
+                                                
+                                                <!-- Redes sociales -->
+                                                <div class="mt-3">
+                                                    <h6>Social Networks:</h6>
+                                                    <div class="social-links">
+                                                        <t t-if="customer.facebook_url">
+                                                            <a t-att-href="customer.facebook_url" 
+                                                               target="_blank" 
+                                                               class="social-network-icon text-primary mr-3">
+                                                                <i class="fa fa-facebook-square"/> Facebook
+                                                            </a>
+                                                        </t>
+                                                        <t t-if="customer.linkedin_url">
+                                                            <a t-att-href="customer.linkedin_url" 
+                                                               target="_blank" 
+                                                               class="social-network-icon text-info mr-3">
+                                                                <i class="fa fa-linkedin-square"/> LinkedIn
+                                                            </a>
+                                                        </t>
+                                                        <t t-if="customer.twitter_url">
+                                                            <a t-att-href="customer.twitter_url" 
+                                                               target="_blank" 
+                                                               class="social-network-icon text-info mr-3">
+                                                                <i class="fa fa-twitter-square"/> Twitter
+                                                            </a>
+                                                        </t>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                            
+                            <t t-if="not customers">
+                                <div class="alert alert-info text-center mt-5">
+                                    <i class="fa fa-info-circle"/> No customers found matching your search.
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe_structure"/>
+            </div>
+        </t>
+    </template>
+
+    <!-- Menú en el sitio web -->
+    <!-- <template id="menu_customers_promotion" inherit_id="website.layout" name="Customers Promotion Menu"> -->
+    <!-- <template id="menu_customers_promotion" inherit_id="portal.frontend_layout" name="Customers Promotion Menu"> -->
+        <!-- <xpath expr="//header//nav//ul[@id='top_menu']/li[last()]" position="after"> -->
+        <!-- <xpath expr="//nav//ul[@id='top_menu']/li[last()]" position="after"> -->
+            <!-- <li t-if="page_name != 'customers_promotion'"> -->
+                <!-- <a href="/customers-promotion">Our Customers</a> -->
+            <!-- </li> -->
+        <!-- </xpath> -->
+    <!-- </template> -->
+    <record id="customers_promotion_page_website" model="website.page">
+        <field name="url">/customers-promotion</field>
+        <field name="is_published">True</field>
+        <field name="view_id" ref="customers_promotion_template"/>
+        <field name="track">True</field>
+    </record>
+
+    <record id="menu_aleph_customers_promotion" model="website.menu">
+        <field name="name">Customers Promotion</field>
+        <field name="url">/customers-promotion</field>
+        <field name="page_id" ref="crm_social_extension.customers_promotion_page_website"/>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence" type="int">50</field>
+    </record>
+</odoo>

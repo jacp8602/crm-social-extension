@@ -14,7 +14,7 @@
     ],
     'data': [
         'views/res_partner_views.xml',
-        # 'views/website_templates.xml',
+        'views/website_templates.xml',
     ],
     'assets': {
         'web.assets_backend': [
