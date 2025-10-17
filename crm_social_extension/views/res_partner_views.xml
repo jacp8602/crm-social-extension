@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extensión de la vista de partner -->
+    <record id="view_partner_form_social_extension" model="ir.ui.view">
+        <field name="name">res.partner.form.social.extension</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Social Networks" name="social_networks">
+                    <group>
+                        <group name="social_urls">
+                            <field name="facebook_url" widget="url"/>
+                            <field name="linkedin_url" widget="url"/>
+                            <field name="twitter_url" widget="url"/>
+                        </group>
+                        <group name="profile_status">
+                            <field name="profile_complete" readonly="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Vista tree para mostrar el estado del perfil -->
+    <record id="view_partner_tree_social_extension" model="ir.ui.view">
+        <field name="name">res.partner.tree.social.extension</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <field name="display_name" position="after">
+                <field name="profile_complete"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Filtro para perfiles incompletos -->
+    <record id="view_res_partner_filter_social_extension" model="ir.ui.view">
+        <field name="name">res.partner.select.social.extension</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <search position="inside">
+                <filter name="profile_incomplete" 
+                        string="Profile Incomplete" 
+                        domain="[('profile_complete', '=', False)]"/>
+                <filter name="profile_complete" 
+                        string="Profile Complete" 
+                        domain="[('profile_complete', '=', True)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Vista kanban con indicador de perfil completo -->
+    <record id="view_partner_kanban_social_extension" model="ir.ui.view">
+        <field name="name">res.partner.kanban.social.extension</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+        <field name="arch" type="xml">
+            <field name="display_name" position="after">
+                <field name="profile_complete"/>
+            </field>
+            <xpath expr="//div[hasclass('oe_kanban_bottom_left')]" position="inside">
+                <div t-if="record.profile_complete.raw_value" class="badge badge-success">
+                    <i class="fa fa-check-circle" title="Profile Complete"/>
+                    Profile Complete
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
