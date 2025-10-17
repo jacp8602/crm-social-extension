@@ -12,12 +12,8 @@ class CustomerPromotionController(http.Controller):
         
         # Dominio base para buscar clientes
         domain = [
-            # ('customer_rank', '>', 0),  # Solo clientes
             ('active', '=', True),      # Solo activos
         ]
-
-        if 'customer_rank' in customer.fields_get(['customer_rank']):
-            domain += [('customer_rank', '>', 0)] # Solo clientes
 
         # Agregar búsqueda si hay término
         if search:
@@ -43,7 +39,6 @@ class CustomerPromotionController(http.Controller):
         """Búsqueda AJAX para clientes"""
         customer = request.env['res.partner']
         domain = [
-            # ('customer_rank', '>', 0),
             ('active', '=', True),
             '|', '|', '|',
             ('name', 'ilike', search_term),
@@ -52,9 +47,6 @@ class CustomerPromotionController(http.Controller):
             ('twitter_url', 'ilike', search_term)
         ]
         
-        if 'customer_rank' in customer.fields_get(['customer_rank']):
-            domain += [('customer_rank', '>', 0)] # Solo clientes
-            
         customers = customer.search_read(
             domain,
             ['name', 'email', 'phone', 'facebook_url', 'linkedin_url', 'twitter_url']

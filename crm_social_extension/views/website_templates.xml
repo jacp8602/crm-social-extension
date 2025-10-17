@@ -100,16 +100,6 @@
         </t>
     </template>
 
-    <!-- Menú en el sitio web -->
-    <!-- <template id="menu_customers_promotion" inherit_id="website.layout" name="Customers Promotion Menu"> -->
-    <!-- <template id="menu_customers_promotion" inherit_id="portal.frontend_layout" name="Customers Promotion Menu"> -->
-        <!-- <xpath expr="//header//nav//ul[@id='top_menu']/li[last()]" position="after"> -->
-        <!-- <xpath expr="//nav//ul[@id='top_menu']/li[last()]" position="after"> -->
-            <!-- <li t-if="page_name != 'customers_promotion'"> -->
-                <!-- <a href="/customers-promotion">Our Customers</a> -->
-            <!-- </li> -->
-        <!-- </xpath> -->
-    <!-- </template> -->
     <record id="customers_promotion_page_website" model="website.page">
         <field name="url">/customers-promotion</field>
         <field name="is_published">True</field>
